@@ -154,10 +154,10 @@ def yolo_correct_boxes(box_xy, box_wh, input_shape, image_shape):
     input_shape = K.cast(input_shape, K.dtype(box_yx))
     image_shape = K.cast(image_shape, K.dtype(box_yx))
     new_shape = K.round(image_shape * K.min(input_shape/image_shape))
-    offset = (input_shape-new_shape)/2./input_shape
-    scale = input_shape/new_shape
-    box_yx = (box_yx - offset) * scale
-    box_hw *= scale
+    #offset = (input_shape-new_shape)/2./input_shape
+    #scale = input_shape/new_shape
+    #box_yx = (box_yx - offset) * scale
+    #box_hw *= scale
 
     box_mins = box_yx - (box_hw / 2.)
     box_maxes = box_yx + (box_hw / 2.)
@@ -193,7 +193,7 @@ def yolo_eval(yolo_outputs,
               iou_threshold=.5):
     """Evaluate YOLO model on given input and return filtered boxes."""
     num_layers = len(yolo_outputs)
-    anchor_mask = [[6,7,8], [3,4,5], [0,1,2]] if num_layers==3 else [[3,4,5], [1,2,3]] # default setting
+    anchor_mask = [[6,7,8], [3,4,5], [0,1,2]] if num_layers==3 else [[3,4,5], [0,1,2]] # default setting
     input_shape = K.shape(yolo_outputs[0])[1:3] * 32
     boxes = []
     box_scores = []
